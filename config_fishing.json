@@ -1,0 +1,80 @@
+{
+  "capture_region": {
+    "top": 549,
+    "left": 787,
+    "width": 369,
+    "height": 328
+  },
+  "areas": {
+    "wait": {
+      "x": 162,
+      "y": 105,
+      "w": 21,
+      "h": 22
+    },
+    "e": {
+      "x": 75,
+      "y": 148,
+      "w": 25,
+      "h": 28
+    },
+    "r": {
+      "x": 160,
+      "y": 149,
+      "w": 24,
+      "h": 26
+    },
+    "t": {
+      "x": 246,
+      "y": 149,
+      "w": 23,
+      "h": 26
+    }
+  },
+  "thresholds": {
+    "green_min": 135,
+    "red_min": 170,
+    "wait_green_diff_min": 20,
+    "wait_red_diff_min": 30,
+    "green_diff_min": 20,
+    "letter_red_diff_min": 15
+  },
+  "keys": [
+    "e",
+    "r",
+    "t"
+  ],
+  "result_name_roi": {
+    "x": 124,
+    "y": 10,
+    "w": 123,
+    "h": 39
+  },
+  "result_message_roi": {
+    "x": 0,
+    "y": 0,
+    "w": 0,
+    "h": 0
+  },
+  "fishing_icon_roi": {
+    "x": 27,
+    "y": 284,
+    "w": 43,
+    "h": 36
+  },
+  "use_prediction": true,
+  "start_key": "5",
+  "start_press_on_run": true,
+  "start_focus_delay_seconds": 3,
+  "start_wait_timeout_min_seconds": 18,
+  "start_wait_timeout_max_seconds": 21,
+  "menu_absent_hold_seconds": 2,
+  "post_last_key_min_seconds": 2,
+  "fishing_icon_threshold": 150,
+  "post_finish_delay_jitter": {
+    "min": 1.0,
+    "max": 1.0
+  },
+  "log_event_details": false,
+  "log_debug_values": false
+}

@@ -1,0 +1,210 @@
+{
+  "active_location": "River",
+  "active_bait": "Crucian",
+  "locations": {
+    "River": {
+      "Worms": [
+        "Crucian",
+        "Roach",
+        "Carp",
+        "Trout"
+      ],
+      "Maggots": [
+        "Alburnus",
+        "Crucian",
+        "Roach"
+      ],
+      "Peas": [
+        "Carp",
+        "Ide"
+      ],
+      "Crucian": [
+        "Pike"
+      ],
+      "Roach": [
+        "Pike"
+      ],
+      "Alburnus": [
+        "Trout",
+        "Catfish"
+      ],
+      "Shrimp": [
+        "Carp",
+        "Trout",
+        "Pike"
+      ],
+      "Corn": [
+        "Carp",
+        "Trout",
+        "Pike"
+      ]
+    },
+    "Ocean": {
+      "Worms": [
+        "Jellyfish",
+        "Sprat",
+        "Capelin",
+        "Shrimp",
+        "Flounder",
+        "Wolffish",
+        "Mussel"
+      ],
+      "Maggots": [
+        "Jellyfish",
+        "Sprat",
+        "Capelin",
+        "Shrimp",
+        "Flounder",
+        "Wolffish",
+        "Mussel"
+      ],
+      "Feather Spoon": [
+        "Jellyfish",
+        "White halibut",
+        "Black halibut"
+      ],
+      "Sprat": [
+        "Sea Bass",
+        "Cod"
+      ],
+      "Capelin": [
+        "Sea Bass",
+        "Cod"
+      ],
+      "Corn": [
+        "Jellyfish",
+        "Sea Bass",
+        "Cod"
+      ],
+      "Mussel": [
+        "Jellyfish",
+        "Sea Bass",
+        "Cod"
+      ],
+      "Shrimp": [
+        "Jellyfish",
+        "Sea Bass",
+        "Cod"
+      ]
+    },
+    "Desert": {
+      "Worms": [
+        "Carp",
+        "Trout"
+      ],
+      "Shrimp": [
+        "Carp",
+        "Pike",
+        "Trout",
+        "Salmon"
+      ]
+    },
+    "Dungeons & Caves": {
+      "Crab Meat": [
+        "Big Black Clam",
+        "White Clam"
+      ]
+    },
+    "Secret Thicket": {
+      "Anglerfish Bait": [
+        "Anglerfish"
+      ]
+    },
+    "Battle Field": {
+      "Grave Beetle": [
+        "Piranha",
+        "Pufferfish"
+      ]
+    }
+  },
+  "puzzles": {
+    "Catfish": [
+      "r",
+      "r",
+      "r"
+    ],
+    "Flounder": [
+      "r",
+      "t",
+      "t",
+      "t"
+    ],
+    "White halibut": [
+      "r",
+      "r",
+      "e"
+    ],
+    "Pufferfish": [
+      "t",
+      "r"
+    ],
+    "Salmon": [
+      "r",
+      "t"
+    ],
+    "Wolffish": [
+      "r",
+      "t",
+      "r",
+      "t",
+      "r"
+    ],
+    "Jellyfish": [
+      "e"
+    ],
+    "Alburnus": [
+      "e"
+    ],
+    "Capelin": [
+      "e"
+    ],
+    "Shrimp": [
+      "e"
+    ],
+    "Sprat": [
+      "e"
+    ],
+    "Roach": [
+      "e"
+    ],
+    "Crucian": [
+      "e"
+    ],
+    "Mussel": [
+      "t",
+      "r"
+    ],
+    "Ide": [
+      "e"
+    ],
+    "Carp": [
+      "t",
+      "r"
+    ],
+    "Trout": [
+      "t",
+      "r",
+      "e"
+    ],
+    "Sea Bass": [
+      "t",
+      "r"
+    ],
+    "Cod": [
+      "e"
+    ],
+    "Piranha": [
+      "t"
+    ],
+    "Black halibut": [
+      "r",
+      "r",
+      "e"
+    ],
+    "Pike": [
+      "t",
+      "r",
+      "e"
+    ]
+  }
+}

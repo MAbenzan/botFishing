@@ -1,0 +1,28 @@
+{
+  "labels": {
+    "Salmon": ["Salmón"],
+    "Sea Bass": ["Lubina"],
+    "Cod": ["Bacalao"],
+    "Trout": ["Trucha"],
+    "Carp": ["Carpa"],
+    "Pike": ["Lucio"],
+    "Catfish": ["Bagre"],
+    "Jellyfish": ["Medusa", "Medusas"],
+    "Sprat": ["Espadín", "Espadines"],
+    "Capelin": ["Capelán", "Capelanes"],
+    "Shrimp": ["Camarón", "Camarones"],
+    "Mussel": ["Mejillón", "Mejillones"],
+    "Halibut": ["Fletán", "Halibut"],
+    "Crucian": ["Cruciano", "Crucianos"],
+    "Roach": ["Cucaracha", "Cucarachas"],
+    "Ide": ["Ide"],
+    "Pufferfish": ["Pez globo"],
+    "Piranha": ["Piraña", "Pirañas"],
+    "Flounder": ["Platija"],
+    "Wolffish": ["Pez lobo"],
+    "Black halibut": ["Fletán negro", "Halibut negro"],
+    "White Clam": ["Almeja blanca"],
+    "Big Black Clam": ["Almeja negra grande"],
+    "Anglerfish": ["Rape"]
+  }
+}
