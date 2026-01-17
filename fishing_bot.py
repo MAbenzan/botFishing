@@ -3,10 +3,15 @@ import json
 import random
 import os
 import sys
+import warnings
 import mss
 import numpy as np
 import cv2
 import pyautogui
+import easyocr
+
+# Suprimir advertencia de torch sobre pin_memory (no afecta al funcionamiento)
+warnings.filterwarnings("ignore", category=UserWarning, message=".*pin_memory.*")
 
 # Configuración global
 CONFIG_FILE = 'config_fishing.json'
@@ -97,6 +102,11 @@ class FishingBot:
         # Control de reinicio
         self.next_session_delay_until = None
         self.session_start_timeout = CONFIG.get('start_wait_timeout_seconds', 5)
+        
+        # Inicializar OCR
+        print("Cargando modelo OCR... (puede tardar un poco)")
+        self.reader = easyocr.Reader(['es', 'en'], gpu=False)
+        print("Modelo OCR cargado.")
 
     def load_settings(self):
         global CONFIG
@@ -146,6 +156,31 @@ class FishingBot:
         if val > threshold: 
             return True
         return False
+
+    def read_fish_name(self, img):
+        roi_cfg = CONFIG.get('result_name_roi')
+        if not roi_cfg:
+            return None
+            
+        x, y, w, h = roi_cfg['x'], roi_cfg['y'], roi_cfg['w'], roi_cfg['h']
+        if w == 0 or h == 0:
+            return None
+            
+        if y+h > img.shape[0] or x+w > img.shape[1]:
+            return None
+            
+        roi = img[y:y+h, x:x+w]
+        # Convertir a RGB para EasyOCR
+        roi_rgb = cv2.cvtColor(roi, cv2.COLOR_BGR2RGB)
+        
+        try:
+            results = self.reader.readtext(roi_rgb, detail=0)
+            if results:
+                return " ".join(results)
+        except Exception as e:
+            print(f"Error OCR: {e}")
+            
+        return None
 
     def ensure_session(self):
         now = time.time()
@@ -207,7 +242,12 @@ class FishingBot:
 
                 # 1. PRIORIDAD ABSOLUTA: Detectar '!' ROJO (Pez picó)
                 # Chequeamos esto PRIMERO para evitar que el estado "Esperando" lo bloquee
-                wait_red_active = (wait_r > self.thresh['red_min'] and wr_diff > CONFIG['thresholds'].get('wait_red_diff_min', 15))
+                # FIX: Añadido chequeo de menu_present y not already_in_sequence para evitar falsos positivos al final
+                already_in_sequence = (len(self.brain.history) > 0)
+                wait_red_active = (wait_r > self.thresh['red_min'] and 
+                                 wr_diff > CONFIG['thresholds'].get('wait_red_diff_min', 15) and
+                                 menu_is_present and 
+                                 not already_in_sequence)
                 
                 if wait_red_active:
                     if self.detect_times['wait_red'] is None:
@@ -229,7 +269,7 @@ class FishingBot:
                 # 2. Estado "Esperando" (Verde/Grisáceo)
                 # Solo si NO hay rojo y NO estamos ya en una secuencia de letras
                 wait_green_active = (wait_g >= self.thresh['green_min'] and wg_diff > CONFIG['thresholds'].get('wait_green_diff_min', -30))
-                already_in_sequence = (len(self.brain.history) > 0)
+                # already_in_sequence ya calculado arriba
                 
                 if wait_green_active and not already_in_sequence:
                     if self.last_state != 'esperando':
@@ -312,17 +352,43 @@ class FishingBot:
 
                 letters_present = e_active or r_active or t_active
 
-                if menu_is_present:
+                # Lógica de finalización / Bloqueo
+                # Si ha pasado mucho tiempo desde la última tecla y seguimos "pescando", algo va mal.
+                # Esto soluciona el caso donde menu_present da falso positivo.
+                force_finish = False
+                if self.awaiting_completion and self.last_press_time:
+                    idle_time = time.time() - self.last_press_time
+                    if idle_time > CONFIG.get('max_sequence_idle_seconds', 8.0):
+                        print(f"DEBUG: Tiempo de inactividad excedido ({idle_time:.1f}s). Forzando finalización.")
+                        force_finish = True
+
+                if menu_is_present and not force_finish:
                     self.menu_absent_since = None
                 else:
-                    if self.last_press_time is not None and not letters_present:
+                    if (self.last_press_time is not None and not letters_present) or force_finish:
                         if self.menu_absent_since is None:
                             self.menu_absent_since = time.time()
                         else:
                             hold = CONFIG.get('menu_absent_hold_seconds', 2.0)
+                            # Si forzamos, reducimos el tiempo de espera
+                            if force_finish: 
+                                hold = 0.5
+                                
                             post_key = CONFIG.get('post_last_key_min_seconds', 2.0)
                             if (time.time() - self.menu_absent_since >= hold and
-                                time.time() - self.last_press_time >= post_key):
+                                time.time() - self.last_press_time >= post_key) or force_finish:
+                                
+                                # Intentar leer nombre antes de reiniciar
+                                try:
+                                    print("Intentando leer resultado...")
+                                    fish_name = self.read_fish_name(img)
+                                    if fish_name:
+                                        print(f"CAPTURADO: {fish_name}")
+                                    else:
+                                        print("CAPTURADO: (No se detectó texto)")
+                                except Exception as e:
+                                    print(f"Error capturando nombre: {e}")
+
                                 print("✓ Pesca completada → Reiniciando")
                                 jitter = CONFIG.get('post_finish_delay_jitter')
                                 if isinstance(jitter, dict):

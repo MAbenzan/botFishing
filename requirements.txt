@@ -3,3 +3,5 @@ numpy
 opencv-python
 pyautogui
 Pillow
+easyocr
+ultralytics
